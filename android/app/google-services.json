@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "631736963844",
+    "project_id": "emailfirestore",
+    "storage_bucket": "emailfirestore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:631736963844:android:bd143d7873684f10d3f651",
+        "android_client_info": {
+          "package_name": "com.example.firestore_email_system_sample"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB83utiY-7L8lydFc7fhBRh4AfmK_WpCdM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
