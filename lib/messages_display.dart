@@ -15,39 +15,17 @@ class MessagesPage extends StatelessWidget {
         actions: [
           IconButton(
               onPressed: () => {
-              messagesStreams()
+                mySpecificMessage()
               },
               icon: Icon(Icons.download)
           )
         ],
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          TextField(
-          onChanged: (value) {
-            messageText = value;
-          },
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(
-            vertical: 10,
-            horizontal: 20,
-              ),
-            )
-          ),
-          ElevatedButton(
-            child: Text('Send'),
-            onPressed: () {
-              _firestore.collection('messages').add(
-                {
-                  'recieverID': 2,
-                  'senderID': 1,
-                  'text': messageText
-                }
-              );
-            },
-          ),
           StreamBuilder<QuerySnapshot>(
-              stream: _firestore.collection('messages').snapshots(),
+              stream: _firestore.collection('messages').where('recieverID', isEqualTo: 3).snapshots(),
               builder: (context, snapshot) {
                 List<Text> messagesWidget = [];
 
@@ -66,12 +44,36 @@ class MessagesPage extends StatelessWidget {
                   children: messagesWidget,
                 );
               }
+          ),
+          TextField(
+              onChanged: (value) {
+                messageText = value;
+              },
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 20,
+                ),
+              )
+          ),
+
+          ElevatedButton(
+            child: Text('Send'),
+            onPressed: () {
+              _firestore.collection('messages').add(
+                  {
+                    'recieverID': 3,
+                    'senderID': 1,
+                    'text': messageText
+                  }
+              );
+            },
           )
         ],
       ),
     );
   }
-  // Get Messages by calling it
+  // Get Messages by calling it using get()
   void getMessages() async{
     final messages = await _firestore.collection('messages').get();
     for (var message in messages.docs) {
@@ -79,11 +81,25 @@ class MessagesPage extends StatelessWidget {
     }
   }
 
+  // Messages changed streamly and no need to recall the query everytime
   void messagesStreams() async {
     await for (var snapshot in _firestore.collection('messages').snapshots()) {
       for (var message in snapshot.docs) {
         print(message.data());
       }
     }
+  }
+
+  // Query to fetch message according to specific 'recieverID'
+  void mySpecificMessage() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
+        .collection('messages')
+        .where('recieverID', isEqualTo: 3)
+        .get();
+
+// Print the resulting documents
+    querySnapshot.docs.forEach((doc) {
+      print(doc.data());
+    });
   }
 }
