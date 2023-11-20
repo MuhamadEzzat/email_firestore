@@ -25,7 +25,7 @@ class MessagesPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           StreamBuilder<QuerySnapshot>(
-              stream: _firestore.collection('messages').where('recieverID', isEqualTo: 3).snapshots(),
+              stream: _firestore.collection('messages').where('recieverID', isEqualTo: 2).snapshots(),
               builder: (context, snapshot) {
                 List<Text> messagesWidget = [];
 
@@ -49,7 +49,7 @@ class MessagesPage extends StatelessWidget {
               onChanged: (value) {
                 messageText = value;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
                   vertical: 10,
                   horizontal: 20,
@@ -94,7 +94,7 @@ class MessagesPage extends StatelessWidget {
   void mySpecificMessage() async {
     QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore.instance
         .collection('messages')
-        .where('recieverID', isEqualTo: 3)
+        .where('recieverID', isEqualTo: 2)
         .get();
 
 // Print the resulting documents
